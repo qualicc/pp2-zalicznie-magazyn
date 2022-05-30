@@ -1,6 +1,8 @@
 # pp2-zalicznie-magazyn
  Projekt na zaliczenie prograowania semestr 2
 
+kompilator: https://github.com/jmeubank/tdm-gcc/releases/download/v10.3.0-tdm64-2/tdm64-gcc-10.3.0-2.exe
+
 Program zaliczeniowy J. Moszyński PP semestr 2.
 
 To do list

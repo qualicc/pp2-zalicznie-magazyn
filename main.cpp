@@ -10,8 +10,7 @@
 using namespace std;
 
 void menu(); //0
-int deklasracjaWielkosci(); //1
-int wypelnianielosowe(int magazyn[], int len); //2
+int wypelnianielosowe(int len); //2
 float generateFloat(float min, float max);//2.3
 int generateInt(int min, int max);//2.4
 // To do list
@@ -63,19 +62,23 @@ int main()
     switch (nextMove)
     {
     case 1:
-        do
         {
-            cout<<"\n\nPodaj wielkość magazynu:\n";
-            cin>>lenght;
-            if(lenght>0){
-                magazyn[lenght];
-            }else{
-                cout<<"\nzła wielkość\n";
-            } 
-        } while(lenght > 0);
+                    do
+            {
+                cout<<"\n\nPodaj wielkość magazynu:\n";
+                cin>>lenght;
+                if(lenght>0){
+                    magazyn[lenght];
+                }else{
+                    cout<<"\nzła wielkość\n";
+                } 
+            } while(lenght > 0);
+        }
         break;
     case 2:
-        magazyn = wypelnianielosowe(magazyn , lenght);
+        {
+            magazyn = wypelnianielosowe(lenght);
+        } 
         break;
     case 3:
         /* code */
@@ -150,22 +153,8 @@ void menu()
     
     //return 0;
 }
-int deklasracjaWielkosci()
-{
-    cout<<"\nPodaj wielkość magazynu:\n";
-    int wielkosc;
-    cin>>wielkosc;
-    if(wielkosc > 0)
-    {
-        int magazyn[wielkosc]
-        return magazyn; 
-    }else{
-        cout<<"\nzła wielkość\n";
-        return deklasracjaWielkosci();
-    }
-    
-}
-int wypelnianielosowe(int magazyn[], int len)
+
+int wypelnianielosowe(int len)
 {
     for(int i = 0; i >= len; i++)
     {
@@ -333,7 +322,7 @@ float generateFloat(float min, float max)
     float val;
     do
     {
-        val = rand()%max+1;
+        val = min + static_cast<float>(rand()) * static_cast<float>(max - min) / RAND_MAX;
     }
     while(val < min);
     return val;
