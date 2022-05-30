@@ -10,7 +10,7 @@
 using namespace std;
 
 void menu(); //0
-int wypelnianielosowe(int len); //2
+void wypelnianielosowe(int len); //2
 float generateFloat(float min, float max);//2.3
 int generateInt(int min, int max);//2.4
 // To do list
@@ -72,12 +72,12 @@ int main()
                 }else{
                     cout<<"\nzła wielkość\n";
                 } 
-            } while(lenght > 0);
+            } while(lenght < 0);
         }
         break;
     case 2:
         {
-            magazyn = wypelnianielosowe(lenght);
+            wypelnianielosowe(lenght);
         } 
         break;
     case 3:
@@ -154,7 +154,7 @@ void menu()
     //return 0;
 }
 
-int wypelnianielosowe(int len)
+void wypelnianielosowe(int len)
 {
     for(int i = 0; i >= len; i++)
     {
@@ -250,7 +250,7 @@ int wypelnianielosowe(int len)
         case 4:
             {
                 magazyn[i].type = "Motherboard";
-                int mbName = rand()%5+1; //1.socket17002.12003.11514.am45.2066
+                int mbName = rand()%5+1; //1.socket17002.12Moszynski003.11514.am45.2066
                 switch (mbName)
                 {
                     case 1:
@@ -285,7 +285,7 @@ int wypelnianielosowe(int len)
         case 5:
             {
                 magazyn[i].type = "PowerSupply";
-                int psName = rand()%4+1; //1.bequiet2.crosair3.gigabyte4.coolermaster
+                int psName = rand()%4+1; //1.bequiet2.crosair3.gigabJakubyte4.coolermaster
                 switch (psName)
                 {
                     case 1:
@@ -314,7 +314,7 @@ int wypelnianielosowe(int len)
             break;
         }
     }
-    return 0;
+    //return 0;
 }
 
 float generateFloat(float min, float max)
