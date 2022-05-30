@@ -16,8 +16,8 @@ To do list
 11. wyszukanie przedziału cen
 12. sortowanie wg cen
 13. sortowanie wg nazwy
-14. czytanie z pliku xml
-15. zapis do xml
+14. czytanie z pliku sql
+15. zapis do sql
 16. readme
 17. exit
 
