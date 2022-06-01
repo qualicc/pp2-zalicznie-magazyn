@@ -9,6 +9,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int ustawianieWielkosciMag(int tab[], int len);
 void menu(); //0
 void wypelnianielosowe(int len); //2
 float generateFloat(float min, float max);//2.3
@@ -62,29 +63,24 @@ int main()
     switch (nextMove)
     {
     case 1:
-        {
-                    do
-            {
-                cout<<"\n\nPodaj wielkość magazynu:\n";
-                cin>>lenght;
-                if(lenght>0){
-                    magazyn[lenght];
-                }else{
-                    cout<<"\nzła wielkość\n";
-                } 
-            } while(lenght < 0);
+        {   
+            ustawianieWielkosciMag(int tab[], int len);// ustawianie wielkości
         }
         break;
     case 2:
         {
-            wypelnianielosowe(lenght);
+            wypelnianielosowe(lenght);// losowe generowanie
         } 
         break;
     case 3:
-        /* code */
+        {
+            wypelnianielosowe(lenght);// losowe generowanie by id
+        } 
         break;
     case 4:
-        /* code */
+        {
+            //wypelnianielosoweOdw(lenght); // losowe generowane odwrócone by id
+        } 
         break;
     case 5:
         /* code */
@@ -153,10 +149,25 @@ void menu()
     
     //return 0;
 }
+int ustawianieWielkosciMag(int tab[], int len)
+{
+    do
+    {
+        cout<<"\n\nPodaj wielkość magazynu:\n";
+        cin>>len;
+        if(len>0){
+            len++;
+            tab[len];
+        }else{
+            cout<<"\nzła wielkość\n";
+        } 
+    }while(len < 0);
+    return tab;
+}
 
 void wypelnianielosowe(int len)
 {
-    for(int i = 0; i >= len; i++)
+    for(int i = 1; i >= len; i++)
     {
         Produkt magazyn[i];
         int type = rand()%5+1;//1.cpu2.gpu3.ram4.mb5.power
@@ -337,3 +348,4 @@ int generateInt(int min, int max)
     while(val < min);
     return val;
 }
+void 
