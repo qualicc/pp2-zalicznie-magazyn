@@ -9,7 +9,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int ustawianieWielkosciMag(int tab[], int len);
+int * ustawianieWielkosciMag();
 void menu(); //0
 void wypelnianielosowe(int len); //2
 float generateFloat(float min, float max);//2.3
@@ -52,19 +52,24 @@ int main()
     
 
     //start
-    menu(); //wyświetlanie menu
+    
 
     int lenght;
-    int magazyn[lenght];
+    int * magazyn;
+    //int * magZnacznik;
+    //magZnacznik = * magazyn;
     int nextMove;
-    
-    cin>>nextMove;
+    do
+    {
+        menu(); //wyświetlanie menu  
+        cin>>nextMove;
 
     switch (nextMove)
     {
     case 1:
         {   
-            ustawianieWielkosciMag(int tab[], int len);// ustawianie wielkości
+            magazyn = ustawianieWielkosciMag();// ustawianie wielkości
+            lenght = magazyn[0];
         }
         break;
     case 2:
@@ -122,6 +127,11 @@ int main()
         /* code */
         break;
     }
+    } while (nextMove == 17);
+    
+    
+    
+    
     return 0;
 }
 void menu()
@@ -149,20 +159,25 @@ void menu()
     
     //return 0;
 }
-int ustawianieWielkosciMag(int tab[], int len)
+int * ustawianieWielkosciMag()
 {
+    int len;
+    int * znaTab;
     do
-    {
+    {   
+        
         cout<<"\n\nPodaj wielkość magazynu:\n";
         cin>>len;
         if(len>0){
             len++;
-            tab[len];
+            int tab[len];
+            tab[0] = len;
+            znaTab = tab;
         }else{
             cout<<"\nzła wielkość\n";
         } 
     }while(len < 0);
-    return tab;
+    return znaTab;
 }
 
 void wypelnianielosowe(int len)
@@ -348,4 +363,4 @@ int generateInt(int min, int max)
     while(val < min);
     return val;
 }
-void 
+//void 
