@@ -14,6 +14,8 @@ void menu(); //0
 void wypelnianielosowe(int len); //2
 float generateFloat(float min, float max);//2.3
 int generateInt(int min, int max);//2.4
+void append(int tab[],int len);
+void read(int tab[],int len);
 // To do list
 // 1. dynamiczny rozmiar X
 // 2. losowe generowanie
@@ -41,6 +43,12 @@ public:
     string type;
     int count;
     float price;
+
+    public:
+        void list()
+        {
+            cout<<"ID."<<id<<" Nazwa."<<name<<" Rodzaj:"<<type<<" Cena:"<<price<<" Ilość:"<<count<<endl;
+        }
 };
 
 
@@ -64,70 +72,76 @@ int main()
         menu(); //wyświetlanie menu  
         cin>>nextMove;
 
-    switch (nextMove)
-    {
-    case 1:
-        {   
-            magazyn = ustawianieWielkosciMag();// ustawianie wielkości
-            lenght = magazyn[0];
+        switch (nextMove)
+        {
+        case 1:
+            {   
+                magazyn = ustawianieWielkosciMag();// ustawianie wielkości
+                //lenght = magazyn[0];
+                cout<< magazyn;
+                Sleep(2000);
+            }
+            break;
+        case 2:
+            {
+                wypelnianielosowe(lenght);// losowe generowanie
+            } 
+            break;
+        case 3:
+            {
+                wypelnianielosowe(lenght);// losowe generowanie by id
+            } 
+            break;
+        case 4:
+            {
+                //wypelnianielosoweOdw(lenght); // losowe generowane odwrócone by id
+            } 
+            break;
+        case 5:
+            {
+                append(magazyn, lenght);
+            }
+            break;
+        case 6:
+            {
+                read(magazyn, lenght);
+            }
+            break;
+        case 7:
+            /* code */
+            break;
+        case 8:
+            /* code */
+            break;
+        case 9:
+            /* code */
+            break;
+        case 10:
+            /* code */
+            break;
+        case 11:
+            /* code */
+            break;
+        case 12:
+            /* code */
+            break;
+        case 13:
+            /* code */
+            break;
+        case 14:
+            /* code */
+            break;
+        case 15:
+            /* code */
+            break;
+        case 16:
+            /* code */
+            break;
+        case 17:
+            /* code */
+            break;
         }
-        break;
-    case 2:
-        {
-            wypelnianielosowe(lenght);// losowe generowanie
-        } 
-        break;
-    case 3:
-        {
-            wypelnianielosowe(lenght);// losowe generowanie by id
-        } 
-        break;
-    case 4:
-        {
-            //wypelnianielosoweOdw(lenght); // losowe generowane odwrócone by id
-        } 
-        break;
-    case 5:
-        /* code */
-        break;
-    case 6:
-        /* code */
-        break;
-    case 7:
-        /* code */
-        break;
-    case 8:
-        /* code */
-        break;
-    case 9:
-        /* code */
-        break;
-    case 10:
-        /* code */
-        break;
-    case 11:
-        /* code */
-        break;
-    case 12:
-        /* code */
-        break;
-    case 13:
-        /* code */
-        break;
-    case 14:
-        /* code */
-        break;
-    case 15:
-        /* code */
-        break;
-    case 16:
-        /* code */
-        break;
-    case 17:
-        /* code */
-        break;
-    }
-    } while (nextMove == 17);
+    } while (nextMove != 17);
     
     
     
@@ -363,4 +377,46 @@ int generateInt(int min, int max)
     while(val < min);
     return val;
 }
-//void 
+void append(int tab[],int len)
+{
+    if (tab[len].empty())
+    {
+        string name;
+        int id;
+        string type;
+        int count;
+        float price;
+        int i = len;
+
+        cout<<"podaj dane do wprowadzenia"<<endl<<"nazwa: ";
+        cin<<name;
+        cout<<"\n rodzaj: ";
+        cin<< type;
+        cout<<"\n Cena: ";
+        cin<< price;
+        cout<<"\n Ilość: ";
+        cin<< count;
+        do
+        {
+            i--;
+        } while (tab[i].empty());
+        i++;
+        tab[i].name = name;
+        tab[i].id = i;
+        tab[i].type = type;
+        tab[i].count = count;
+        tab[i].price = price;
+        cout<<"dodane prawidłowo. id produktu = "<< i<<endl;
+    }else{
+        cout<<"magazyn pełny"<<endl;
+    }
+    
+}
+void read(int tab[],int len)
+{
+    for (int i = 1; i < len; i++)
+    {
+        tab[i].list();
+    }
+    
+}
