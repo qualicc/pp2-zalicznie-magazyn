@@ -11,13 +11,12 @@ using namespace std;
 
 int * ustawianieWielkosciMag();
 void menu(); //0
-void wypelnianielosowe(int len); //2
+int wypelnianielosowe(int tab[], int len,bool gen); //2
 float generateFloat(float min, float max);//2.3
 int generateInt(int min, int max);//2.4
 void append(int tab[],int len);
 void read(int tab[],int len);
 // To do list
-// 1. dynamiczny rozmiar X
 // 2. losowe generowanie
 // 3. losowe generowanie sortowane
 // 4. loswoe generowanie odwrotnie sortowane
@@ -45,6 +44,14 @@ public:
     float price;
 
     public:
+        void setData(string nazwa, int ID, string typ, int ilosc, float cena)
+        {
+            name = nazwa;
+            id = ID;
+            type = typ;
+            count = ilosc;
+            price = cena;
+        }
         void list()
         {
             cout<<"ID."<<id<<" Nazwa."<<name<<" Rodzaj:"<<type<<" Cena:"<<price<<" Ilość:"<<count<<endl;
@@ -60,10 +67,20 @@ int main()
     
 
     //start
-    
-
-    int lenght;
-    int * magazyn;
+    int lenght, magazyn[lenght];
+    do
+    {   
+        
+        cout<<"\n\nPodaj wielkość magazynu:\n";
+        cin>>lenght;
+        if(lenght>0){
+            lenght++;
+            magazyn[lenght];
+            magazyn[0] = lenght;
+        }else{
+            cout<<"\nzła wielkość\n";
+        } 
+    }while(lenght < 0);
     //int * magZnacznik;
     //magZnacznik = * magazyn;
     int nextMove;
@@ -76,35 +93,40 @@ int main()
         {
         case 1:
             {   
-                magazyn = ustawianieWielkosciMag();// ustawianie wielkości
-                //lenght = magazyn[0];
-                cout<< magazyn;
-                Sleep(2000);
+                
+                wypelnianielosowe(magazyn, lenght,false);// losowe generowanie
+                cout<<"\nwygenerowano poprawnie\n";
+                cout<<magazyn[0]<<endl;
+                //cout<<magazyn[1].id;
             }
             break;
         case 2:
             {
-                wypelnianielosowe(lenght);// losowe generowanie
+                wypelnianielosowe(magazyn, lenght,false);// losowe generowanie by id
+                cout<<"\nwygenerowano poprawnie";
             } 
             break;
         case 3:
             {
-                wypelnianielosowe(lenght);// losowe generowanie by id
+                //wypelnianielosoweOdw(lenght, true); // losowe generowane odwrócone by id 
             } 
             break;
         case 4:
             {
-                //wypelnianielosoweOdw(lenght); // losowe generowane odwrócone by id
+                //append(magazyn, lenght);
             } 
             break;
         case 5:
             {
-                append(magazyn, lenght);
+                for (int i = 1; i < lenght; i++)
+                {
+                   // cout<<"ID."<<tab[i].id<<" Nazwa."<<tab[i].name<<" Rodzaj:"<<tab[i].type<<" Cena:"<<tab[i].price<<" Ilość:"<<tab[i].count<<endl;
+                }
             }
             break;
         case 6:
             {
-                read(magazyn, lenght);
+               
             }
             break;
         case 7:
@@ -141,7 +163,7 @@ int main()
             /* code */
             break;
         }
-    } while (nextMove != 17);
+    } while (nextMove != 16);
     
     
     
@@ -152,23 +174,22 @@ void menu()
 {
     //menu
     cout<<"Magazyn części komputerowych\n";
-    cout<<"1. Określ rozmiar magazynu\n";
-    cout<<"2. Losowa zawartość magazynu\n";
-    cout<<"3. Losowa zawartość posortowana wg. ID\n";
-    cout<<"4. Losowa zawartość odwrotnie posortowana wg. ID\n";
-    cout<<"5. Dopisywanie towaru\n";
-    cout<<"6. Listowanie magazynu\n";
-    cout<<"7. Suma wartości magazynu\n";
-    cout<<"8. Średnia wartość całości\n";
-    cout<<"9. Najwyższa i najniższa cena\n";
-    cout<<"10. Zmiana ceny o %\n";
-    cout<<"11. Wyszukanie wg. ceny przedział\n";
-    cout<<"12. Sortowanie wg. ceny\n";
-    cout<<"13. Sortowanie wg. Nazwy\n";
-    cout<<"14. Import .sql\n";
-    cout<<"15. Export .sql\n";
-    cout<<"16. Read Me\n";
-    cout<<"17. Exit\n";
+    cout<<"1. Losowa zawartość magazynu\n";
+    cout<<"2. Losowa zawartość posortowana wg. ID\n";
+    cout<<"3. Losowa zawartość odwrotnie posortowana wg. ID\n";
+    cout<<"4. Dopisywanie towaru\n";
+    cout<<"5. Listowanie magazynu\n";
+    cout<<"6. Suma wartości magazynu\n";
+    cout<<"7. Średnia wartość całości\n";
+    cout<<"8. Najwyższa i najniższa cena\n";
+    cout<<"9. Zmiana ceny o %\n";
+    cout<<"10. Wyszukanie wg. ceny przedział\n";
+    cout<<"11. Sortowanie wg. ceny\n";
+    cout<<"12. Sortowanie wg. Nazwy\n";
+    cout<<"13. Import .sql\n";
+    cout<<"14. Export .sql\n";
+    cout<<"15. Read Me\n";
+    cout<<"16. Exit\n";
     
     
     //return 0;
@@ -194,39 +215,46 @@ int * ustawianieWielkosciMag()
     return znaTab;
 }
 
-void wypelnianielosowe(int len)
+int wypelnianielosowe(int tab[], int len,bool gen)
 {
+    int slen = len;
     for(int i = 1; i >= len; i++)
-    {
-        Produkt magazyn[i];
+    {   
+        Produkt tab[i];
         int type = rand()%5+1;//1.cpu2.gpu3.ram4.mb5.power
-        magazyn[i].id = i;
-        magazyn[i].count = generateInt(10,1000); 
+        if(gen == false){
+          tab[i].id = i;  
+        }else{
+            slen--;
+            tab[i].id = slen;  
+        }
+        
+        tab[i].count = generateInt(10,1000); 
         switch (type)
         {
         case 1:
             {
-                magazyn[i].type = "CPU";
+                tab[i].type = "CPU";
                 int cpuName = rand()%2+1; //1.intel2.amd
                 switch (cpuName)
                 {
                     case 1:
                         {
-                            magazyn[i].name = "Intel";
+                            tab[i].name = "Intel";
                         }
                         break;
                     case 2:
                         {
-                            magazyn[i].name = "AMD";
+                            tab[i].name = "AMD";
                         }
                         break;    
                 }
-                magazyn[i].price = generateFloat(100,400);              
+                tab[i].price = generateFloat(100,400);              
             }
             break;
         case 2:
             {
-                magazyn[i].type = "GPU";
+                tab[i].type = "GPU";
                 int gpuName = rand()%2+1; //1.Geforce2.amd
                 switch (gpuName)
                 {
@@ -237,12 +265,12 @@ void wypelnianielosowe(int len)
                             {
                                 case 1:
                                 {
-                                    magazyn[i].name = "Geforce GTX";
+                                    tab[i].name = "Geforce GTX";
                                 }
                                     break;
                                 case 2:
                                 {
-                                    magazyn[i].name = "Geforce RTX";
+                                    tab[i].name = "Geforce RTX";
                                 }
                                     break;
                             }    
@@ -250,111 +278,113 @@ void wypelnianielosowe(int len)
                         break;
                     case 2:
                         {
-                            magazyn[i].name = "AMD Radeon";
+                            tab[i].name = "AMD Radeon";
                         }  
                         break;
-                magazyn[i].price = generateFloat(150,2000);        
+                tab[i].price = generateFloat(150,2000);        
                 }
             }
             break;
         case 3:
             {
-                magazyn[i].type = "RAM";
+                tab[i].type = "RAM";
                 int sizeRam = rand()%4+1; //1.4gb2.8gb3.16gb4.32gb
                 switch (sizeRam)
                 {
                     case 1:
                     {
-                        magazyn[i].name = "RAM 4GB";
+                        tab[i].name = "RAM 4GB";
                     } 
                         break;
                     case 2:
                     {
-                        magazyn[i].name = "RAM 8GB";
+                        tab[i].name = "RAM 8GB";
                     }  
                         break;
                     case 3:
                     {
-                        magazyn[i].name = "RAM 16GB";
+                        tab[i].name = "RAM 16GB";
                     }  
                         break;
                     case 4:
                     {
-                        magazyn[i].name = "RAM 32GB";
+                        tab[i].name = "RAM 32GB";
                     }
                         break;
                 }
-                magazyn[i].price = generateFloat(125,300);
+                tab[i].price = generateFloat(125,300);
             } 
             break;
         case 4:
             {
-                magazyn[i].type = "Motherboard";
+                tab[i].type = "Motherboard";
                 int mbName = rand()%5+1; //1.socket17002.12Moszynski003.11514.am45.2066
                 switch (mbName)
                 {
                     case 1:
                     {
-                        magazyn[i].name = "Socket 1700";
+                        tab[i].name = "Socket 1700";
                     }
                         break;
                     case 2:
                     {
-                        magazyn[i].name = "Socket 1200";
+                        tab[i].name = "Socket 1200";
                     }
                         break;
                     case 3:
                     {
-                        magazyn[i].name = "Socket 1151";
+                        tab[i].name = "Socket 1151";
                     }
                         break;
                     case 4:
                     {
-                        magazyn[i].name = "Socket AM4";
+                        tab[i].name = "Socket AM4";
                     }
                         break;
                     case 5:
                     {
-                        magazyn[i].name = "Socket 2066";
+                        tab[i].name = "Socket 2066";
                     }                  
                         break;
                 }
-                magazyn[i].price = generateFloat(50,150);
+                tab[i].price = generateFloat(50,150);
             }
             break;
         case 5:
             {
-                magazyn[i].type = "PowerSupply";
+                tab[i].type = "PowerSupply";
                 int psName = rand()%4+1; //1.bequiet2.crosair3.gigabJakubyte4.coolermaster
                 switch (psName)
                 {
                     case 1:
                     {
-                        magazyn[i].name = "Be quiet!";
+                        tab[i].name = "Be quiet!";
                     }
                         break;
                     case 2:
                     {
-                        magazyn[i].name = "Crosair";
+                        tab[i].name = "Crosair";
                     }
                         break;
                     case 3:
                     {
-                        magazyn[i].name = "Gigabyte";
+                        tab[i].name = "Gigabyte";
                     }
                         break;
                     case 4:
                     {
-                        magazyn[i].name = "Cooler Master";
+                        tab[i].name = "Cooler Master";
                     }                   
                         break;
                 }
-                magazyn[i].price = generateFloat(25,100);
+                tab[i].price = generateFloat(25,100);
             }
             break;
         }
+        cout<<tab[i].name;
     }
-    //return 0;
+    
+    return tab;
 }
 
 float generateFloat(float min, float max)
@@ -379,44 +409,44 @@ int generateInt(int min, int max)
 }
 void append(int tab[],int len)
 {
-    if (tab[len].empty())
-    {
-        string name;
-        int id;
-        string type;
-        int count;
-        float price;
-        int i = len;
+    // if (tab[len].empty())
+    // {
+    //     string name;
+    //     int id;
+    //     string type;
+    //     int count;
+    //     float price;
+    //     int i = len;
 
-        cout<<"podaj dane do wprowadzenia"<<endl<<"nazwa: ";
-        cin<<name;
-        cout<<"\n rodzaj: ";
-        cin<< type;
-        cout<<"\n Cena: ";
-        cin<< price;
-        cout<<"\n Ilość: ";
-        cin<< count;
-        do
-        {
-            i--;
-        } while (tab[i].empty());
-        i++;
-        tab[i].name = name;
-        tab[i].id = i;
-        tab[i].type = type;
-        tab[i].count = count;
-        tab[i].price = price;
-        cout<<"dodane prawidłowo. id produktu = "<< i<<endl;
-    }else{
-        cout<<"magazyn pełny"<<endl;
-    }
+    //     cout<<"podaj dane do wprowadzenia"<<endl<<"nazwa: ";
+    //     cin<<name;
+    //     cout<<"\n rodzaj: ";
+    //     cin<< type;
+    //     cout<<"\n Cena: ";
+    //     cin<< price;
+    //     cout<<"\n Ilość: ";
+    //     cin<< count;
+    //     do
+    //     {
+    //         i--;
+    //     } while (tab[i].empty());
+    //     i++;
+    //     tab[i].name = name;
+    //     tab[i].id = i;
+    //     tab[i].type = type;
+    //     tab[i].count = count;
+    //     tab[i].price = price;
+    //     cout<<"dodane prawidłowo. id produktu = "<< i<<endl;
+    // }else{
+    //     cout<<"magazyn pełny"<<endl;
+    // }
     
 }
 void read(int tab[],int len)
 {
-    for (int i = 1; i < len; i++)
-    {
-        tab[i].list();
-    }
+    // for (int i = 1; i < len; i++)
+    // {
+    //      cout<<"ID."<<tab[i].id<<" Nazwa."<<tab[i].name<<" Rodzaj:"<<tab[i].type<<" Cena:"<<tab[i].price<<" Ilość:"<<tab[i].count<<endl;
+    // }
     
 }
