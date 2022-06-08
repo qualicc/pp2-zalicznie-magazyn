@@ -9,14 +9,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int * ustawianieWielkosciMag();
-void menu(); //0
-int wypelnianielosowe(int tab[], int len,bool gen); //2
-float generateFloat(float min, float max);//2.3
-int generateInt(int min, int max);//2.4
-void append(int tab[],int len);
-void read(int tab[],int len);
+struct towar
+{
+    char name[20];
+    int id;
+    string type;
+    int count;
+    float price;
+};
+         
 // To do list
+// 1. Określ rozmiar magazynu
 // 2. losowe generowanie
 // 3. losowe generowanie sortowane
 // 4. loswoe generowanie odwrotnie sortowane
@@ -33,228 +36,202 @@ void read(int tab[],int len);
 // 15. zapis do sql
 // 16. readme
 // 17. exoit
-//start
-class Produkt
-{
-public:
-    string name;
-    int id;
-    string type;
-    int count;
-    float price;
 
-    public:
-        void setData(string nazwa, int ID, string typ, int ilosc, float cena)
-        {
-            name = nazwa;
-            id = ID;
-            type = typ;
-            count = ilosc;
-            price = cena;
-        }
-        void list()
-        {
-            cout<<"ID."<<id<<" Nazwa."<<name<<" Rodzaj:"<<type<<" Cena:"<<price<<" Ilość:"<<count<<endl;
-        }
-};
+void generateData(product magazyn[], int countData);	
+void generujPosortowane(product magazyn[], int countData);		
+float generateFloat(float min, float max);
+int generateInt(int min, int max);
+void generujOdwrotniePosortowane(product magazyn[], int countData);	
+void dodajTowar(product magazyn[], productnowy, int *countData);		
+void wypisz(producttowary[], int ile);									
+float sumaWartosci(product magazyn[], int countData);
+float sredniaCena(product magazyn[], int countData);
+void wyszukajCena(product magazyn[], int ile_danych, productserchedmagazyn[], int *ile_wyszukanych, float min, float max);
+void minmaxCena(product magazyn[], int countData, float *min, float *max);
+void przecena(product magazyn[], int countData, float procent);
+void selectionsort(product magazyn[], int countData);
 
 
-int main()
-{
-    //settings
-    srand(time(NULL));//random
-    //varliables
-    
 
-    //start
-    int lenght, magazyn[lenght];
-    do
-    {   
-        
-        cout<<"\n\nPodaj wielkość magazynu:\n";
-        cin>>lenght;
-        if(lenght>0){
-            lenght++;
-            magazyn[lenght];
-            magazyn[0] = lenght;
-        }else{
-            cout<<"\nzła wielkość\n";
-        } 
-    }while(lenght < 0);
-    //int * magZnacznik;
-    //magZnacznik = * magazyn;
-    int nextMove;
-    do
-    {
-        menu(); //wyświetlanie menu  
-        cin>>nextMove;
+main()
+{   
+    srand(time(NULL));
+    product *magazyn, *serchedmagazyn, nowy;
+	float suma, srednia, minimum, maksimum, procent;	
+    int lenght=0, countData=0, countSearched=0;
+	char znak;
+	cout<<"Magazyn czesci komputerowych"<<endl;
+	
+	do
+	{
+	    //fflush(stdin);
+	    //system("CLS");
 
-        switch (nextMove)
-        {
-        case 1:
-            {   
-                
-                wypelnianielosowe(magazyn, lenght,false);// losowe generowanie
-                cout<<"\nwygenerowano poprawnie\n";
-                cout<<magazyn[0]<<endl;
-                //cout<<magazyn[1].id;
-            }
-            break;
-        case 2:
-            {
-                wypelnianielosowe(magazyn, lenght,false);// losowe generowanie by id
-                cout<<"\nwygenerowano poprawnie";
-            } 
-            break;
-        case 3:
-            {
-                //wypelnianielosoweOdw(lenght, true); // losowe generowane odwrócone by id 
-            } 
-            break;
-        case 4:
-            {
-                //append(magazyn, lenght);
-            } 
-            break;
-        case 5:
-            {
-                for (int i = 1; i < lenght; i++)
+
+		cout<<"1. Określ rozmiar magazynu"<<endl;
+		cout<<"2. losowe generowanie"<<endl;
+	    cout<<"3. losowe generowanie sortowane by id"<<endl;
+	   	cout<<"4. loswoe generowanie odwrotnie sortowane by id"<<endl;
+	   	cout<<"4. Dopisanie towaru do magazynu"<<endl;
+	    cout<<"5. Wypisanie elementow magazynlicy"<<endl;
+	    cout<<"6. Suma wartosci w calym magazynie"<<endl;
+	    cout<<"7. Srednia cena towaru"<<endl;
+	    cout<<"8. Maksymalna i minimalna cena"<<endl;
+		cout<<"9. Zmiana ceny o podany procent"<<endl;
+		cout<<"10. Wyszukiwanie wedlug przedzialu cen"<<endl;
+		cout<<"11. Sortowanie rosnace wedlug cen- proste wybieranie"<<endl;
+	    cout<<"12. Zakończ"<<endl<<endl;
+	    cin>>znak;
+	    switch (znak)
+	    {
+	    	case '1':
                 {
-                   // cout<<"ID."<<tab[i].id<<" Nazwa."<<tab[i].name<<" Rodzaj:"<<tab[i].type<<" Cena:"<<tab[i].price<<" Ilość:"<<tab[i].count<<endl;
+                    cout<<"Podaj wielkość?"<<endl;
+	    			cin>>lenght;
+                    if(lenght >= 0)
+                    {
+                        cout<<"Rozmiar mniejszy niż 0!!";
+                        break;
+                    }	
+                    lenght++;				
+	    			magazyn = new towar[lenght];	
+	    			serchedmagazyn =new towar[lenght];	//potrzebne do funkcji szukania
+	    			countData=0;
+	    			countSearched=0;
+	    			break;
+                } 	
+	      	case '2':
+                {
+			  			generateData(magazyn, lenght);
+	      	            cout<<endl<<"Wykonano"<<endl;
+	      	            break;                    
                 }
-            }
-            break;
-        case 6:
-            {
-               
-            }
-            break;
-        case 7:
-            /* code */
-            break;
-        case 8:
-            /* code */
-            break;
-        case 9:
-            /* code */
-            break;
-        case 10:
-            /* code */
-            break;
-        case 11:
-            /* code */
-            break;
-        case 12:
-            /* code */
-            break;
-        case 13:
-            /* code */
-            break;
-        case 14:
-            /* code */
-            break;
-        case 15:
-            /* code */
-            break;
-        case 16:
-            /* code */
-            break;
-        case 17:
-            /* code */
-            break;
+			case '3': 	cout<<"Ile danych generowac? ";
+	      				cin>>countData;
+						generujPosortowane(magazyn, countData);
+						cout<<endl;
+	      	            cout<<endl<<"Wygenerowano"<<endl;
+	      	            break;	    
+	      	case '4': 	cout<<"Ile danych generowac? ";
+	      				cin>>countData;
+			  			generujOdwrotniePosortowane(magazyn, countData);
+			  			cout<<endl<<"Wygenerowano"<<endl;
+	                    break;
+	        case '40':	cout<<"Nazwa: ";
+	        			fflush(stdin);
+						gets(nowy.nazwa);   
+						cout<<"Cena: ";
+						cin>>nowy.cena;
+						cout<<"Sztuk: ";
+						cin>>nowy.sztuk;
+						cin.ignore();   
+						dodajTowar(magazyn, nowy, &countData);    
+						cout<<"Dopisany"<<endl;     
+						break;
+	        case '50':	wypisz(magazyn, countData);
+	        			cout<<endl;
+	        			break;
+	        case '6': 	cout<<endl<<"Suma wartosci magazynu= "<<sumaWartosci(magazyn, countData)<<endl<<endl;  
+			            break;  
+			case '7':	cout<<"Srednia cena= "<<sredniaCena(magazyn, countData)<<endl<<endl;       
+			        	break;
+			case '8': 	minmaxCena(magazyn, countData, &minimum, &maksimum);
+				        cout<<"Cena minimalna="<<minimum<<"  Cena maksymalna="<<maksimum<<endl;
+				        break;
+			case '9': 	cout<<"O jaki procent przeceniasz? (ujemny obniza) ";
+						cin>>procent;
+						przecena(magazyn, countData, procent);
+						cout<<"Przecenione."<<endl;
+			        	break;
+			case 'a':
+                {
+                    cout<<"Podaj przedzial szukany."<<endl<<"od wartosci: ";
+					cin>>minimum;					//Bez zabezpieczeń!
+					cout<<"do wartosci: ";
+					cin>>maksimum;
+					getchar();
+					wyszukajCena(magazyn, countData, serchedmagazyn, &countSearched, minimum, maksimum);
+					wypisz(serchedmagazyn, countSearched);
+					cout<<endl;
+					break;
+                }
+			case 'b':                	
+                {
+                    selectionsort(magazyn, countData);
+                    cout<<"POSORTOWANO"<<endl;
+					break;
+                }		
+			case 12:
+                {
+                    break;
+                }	
+			default :
+                {
+                    cout<<"Brak opcji"<<endl;
+                } 	
         }
-    } while (nextMove != 16);
+	}
+    while (znak!=12);
     
-    
-    
-    
-    return 0;
-}
-void menu()
-{
-    //menu
-    cout<<"Magazyn części komputerowych\n";
-    cout<<"1. Losowa zawartość magazynu\n";
-    cout<<"2. Losowa zawartość posortowana wg. ID\n";
-    cout<<"3. Losowa zawartość odwrotnie posortowana wg. ID\n";
-    cout<<"4. Dopisywanie towaru\n";
-    cout<<"5. Listowanie magazynu\n";
-    cout<<"6. Suma wartości magazynu\n";
-    cout<<"7. Średnia wartość całości\n";
-    cout<<"8. Najwyższa i najniższa cena\n";
-    cout<<"9. Zmiana ceny o %\n";
-    cout<<"10. Wyszukanie wg. ceny przedział\n";
-    cout<<"11. Sortowanie wg. ceny\n";
-    cout<<"12. Sortowanie wg. Nazwy\n";
-    cout<<"13. Import .sql\n";
-    cout<<"14. Export .sql\n";
-    cout<<"15. Read Me\n";
-    cout<<"16. Exit\n";
-    
-    
-    //return 0;
-}
-int * ustawianieWielkosciMag()
-{
-    int len;
-    int * znaTab;
-    do
-    {   
-        
-        cout<<"\n\nPodaj wielkość magazynu:\n";
-        cin>>len;
-        if(len>0){
-            len++;
-            int tab[len];
-            tab[0] = len;
-            znaTab = tab;
-        }else{
-            cout<<"\nzła wielkość\n";
-        } 
-    }while(len < 0);
-    return znaTab;
+    cout<<endl<<"NACISNIJ KLAWISZ BY ZAKONCZYC"<<endl;
+    delete [] magazyn;
+    delete [] serchedmagazyn;
+	system("PAUSE>>NULL");    
 }
 
-int wypelnianielosowe(int tab[], int len,bool gen)
+void generateData(product magazyn[], int len)
 {
+ 	// char naz[20], numer[13];
+	// //srand(time(NULL));			//gdyby uczynić funkcję niezależną od programu srand powinien tu być
+ 	// for (int i=1; i<=countData; i++)  
+ 	// {
+    //     strcpy(naz, "Towar");
+	// 	itoa(i, numer, 10);
+	// 	strcat(naz, numer);
+    //     strcpy(magazyn[i].nazwa, naz);
+	// 	magazyn[i].cena=(rand()%100001) /100;		
+    //     magazyn[i].sztuk=rand()%101;
+    // }
+
     int slen = len;
-    for(int i = 1; i >= len; i++)
+    for(int i = 1; i <= len; i++)
     {   
-        Produkt tab[i];
+        Produkt magazyn[i];
         int type = rand()%5+1;//1.cpu2.gpu3.ram4.mb5.power
         if(gen == false){
-          tab[i].id = i;  
+          magazyn[i].id = i;  
         }else{
             slen--;
-            tab[i].id = slen;  
+            magazyn[i].id = slen;  
         }
         
-        tab[i].count = generateInt(10,1000); 
+        magazyn[i].count = generateInt(10,1000); 
         switch (type)
         {
         case 1:
             {
-                tab[i].type = "CPU";
+                magazyn[i].type = "CPU";
                 int cpuName = rand()%2+1; //1.intel2.amd
                 switch (cpuName)
                 {
                     case 1:
                         {
-                            tab[i].name = "Intel";
+                            
+                            magazyn[i].name = "Intel";
                         }
                         break;
                     case 2:
                         {
-                            tab[i].name = "AMD";
+                            magazyn[i].name = "AMD";
                         }
                         break;    
                 }
-                tab[i].price = generateFloat(100,400);              
+                magazyn[i].price = generateFloat(100,400);              
             }
             break;
         case 2:
             {
-                tab[i].type = "GPU";
+                magazyn[i].type = "GPU";
                 int gpuName = rand()%2+1; //1.Geforce2.amd
                 switch (gpuName)
                 {
@@ -265,12 +242,12 @@ int wypelnianielosowe(int tab[], int len,bool gen)
                             {
                                 case 1:
                                 {
-                                    tab[i].name = "Geforce GTX";
+                                    magazyn[i].name = "Geforce GTX";
                                 }
                                     break;
                                 case 2:
                                 {
-                                    tab[i].name = "Geforce RTX";
+                                    magazyn[i].name = "Geforce RTX";
                                 }
                                     break;
                             }    
@@ -278,115 +255,112 @@ int wypelnianielosowe(int tab[], int len,bool gen)
                         break;
                     case 2:
                         {
-                            tab[i].name = "AMD Radeon";
+                            magazyn[i].name = "AMD Radeon";
                         }  
                         break;
-                tab[i].price = generateFloat(150,2000);        
+                magazyn[i].price = generateFloat(150,2000);        
                 }
             }
             break;
         case 3:
             {
-                tab[i].type = "RAM";
+                magazyn[i].type = "RAM";
                 int sizeRam = rand()%4+1; //1.4gb2.8gb3.16gb4.32gb
                 switch (sizeRam)
                 {
                     case 1:
                     {
-                        tab[i].name = "RAM 4GB";
+                        magazyn[i].name = "RAM 4GB";
                     } 
                         break;
                     case 2:
                     {
-                        tab[i].name = "RAM 8GB";
+                        magazyn[i].name = "RAM 8GB";
                     }  
                         break;
                     case 3:
                     {
-                        tab[i].name = "RAM 16GB";
+                        magazyn[i].name = "RAM 16GB";
                     }  
                         break;
                     case 4:
                     {
-                        tab[i].name = "RAM 32GB";
+                        magazyn[i].name = "RAM 32GB";
                     }
                         break;
                 }
-                tab[i].price = generateFloat(125,300);
+                magazyn[i].price = generateFloat(125,300);
             } 
             break;
         case 4:
             {
-                tab[i].type = "Motherboard";
+                magazyn[i].type = "Motherboard";
                 int mbName = rand()%5+1; //1.socket17002.12Moszynski003.11514.am45.2066
                 switch (mbName)
                 {
                     case 1:
                     {
-                        tab[i].name = "Socket 1700";
+                        magazyn[i].name = "Socket 1700";
                     }
                         break;
                     case 2:
                     {
-                        tab[i].name = "Socket 1200";
+                        magazyn[i].name = "Socket 1200";
                     }
                         break;
                     case 3:
                     {
-                        tab[i].name = "Socket 1151";
+                        magazyn[i].name = "Socket 1151";
                     }
                         break;
                     case 4:
                     {
-                        tab[i].name = "Socket AM4";
+                        magazyn[i].name = "Socket AM4";
                     }
                         break;
                     case 5:
                     {
-                        tab[i].name = "Socket 2066";
+                        magazyn[i].name = "Socket 2066";
                     }                  
                         break;
                 }
-                tab[i].price = generateFloat(50,150);
+                magazyn[i].price = generateFloat(50,150);
             }
             break;
         case 5:
             {
-                tab[i].type = "PowerSupply";
+                magazyn[i].type = "PowerSupply";
                 int psName = rand()%4+1; //1.bequiet2.crosair3.gigabJakubyte4.coolermaster
                 switch (psName)
                 {
                     case 1:
                     {
-                        tab[i].name = "Be quiet!";
+                        magazyn[i].name = "Be quiet!";
                     }
                         break;
                     case 2:
                     {
-                        tab[i].name = "Crosair";
+                        magazyn[i].name = "Crosair";
                     }
                         break;
                     case 3:
                     {
-                        tab[i].name = "Gigabyte";
+                        magazyn[i].name = "Gigabyte";
                     }
                         break;
                     case 4:
                     {
-                        tab[i].name = "Cooler Master";
+                        magazyn[i].name = "Cooler Master";
                     }                   
                         break;
                 }
-                tab[i].price = generateFloat(25,100);
+                magazyn[i].price = generateFloat(25,100);
             }
             break;
         }
-        cout<<tab[i].name;
+        cout<<magazyn[i].name;
     }
-    
-    return tab;
 }
-
 float generateFloat(float min, float max)
 {
     float val;
@@ -407,46 +381,118 @@ int generateInt(int min, int max)
     while(val < min);
     return val;
 }
-void append(int tab[],int len)
-{
-    // if (tab[len].empty())
-    // {
-    //     string name;
-    //     int id;
-    //     string type;
-    //     int count;
-    //     float price;
-    //     int i = len;
 
-    //     cout<<"podaj dane do wprowadzenia"<<endl<<"nazwa: ";
-    //     cin<<name;
-    //     cout<<"\n rodzaj: ";
-    //     cin<< type;
-    //     cout<<"\n Cena: ";
-    //     cin<< price;
-    //     cout<<"\n Ilość: ";
-    //     cin<< count;
-    //     do
-    //     {
-    //         i--;
-    //     } while (tab[i].empty());
-    //     i++;
-    //     tab[i].name = name;
-    //     tab[i].id = i;
-    //     tab[i].type = type;
-    //     tab[i].count = count;
-    //     tab[i].price = price;
-    //     cout<<"dodane prawidłowo. id produktu = "<< i<<endl;
-    // }else{
-    //     cout<<"magazyn pełny"<<endl;
-    // }
-    
-}
-void read(int tab[],int len)
+void generujPosortowane(product magazyn[], int countData)
 {
-    // for (int i = 1; i < len; i++)
-    // {
-    //      cout<<"ID."<<tab[i].id<<" Nazwa."<<tab[i].name<<" Rodzaj:"<<tab[i].type<<" Cena:"<<tab[i].price<<" Ilość:"<<tab[i].count<<endl;
-    // }
-    
+	char naz[20], numer[13];
+	for (int i=1; i<=countData; i++)  
+ 	{
+ 		strcpy(naz, "Towar");
+		itoa(i, numer, 10);
+		strcat(naz, numer);
+        strcpy(magazyn[i].nazwa, naz);
+		magazyn[i].cena=i*10.11;		
+        magazyn[i].sztuk=i;
+    }
 }
+        
+void generujOdwrotniePosortowane(product magazyn[], int countData)
+{
+	char naz[20], numer[13];	
+	for (int i=1; i<=countData; i++)  
+ 	{
+ 		strcpy(naz, "Towar");
+		itoa(i, numer, 10);		//Nazwy numeruję j.w. czyli rosnąco
+		strcat(naz, numer);
+        strcpy(magazyn[i].nazwa, naz);
+		magazyn[i].cena=countData*20 - i*10.11;	
+        magazyn[i].sztuk=countData - i + 1;
+    }
+}
+
+void dodajTowar(product magazyn[], productnowy, int *countData)
+{
+	(*countData)++;
+	magazyn[*countData]=nowy;
+}
+	
+	
+void wypisz(producttowary[], int ile)	
+{
+	for (int i=1; i<=ile; i++)    //od indeksu 1 do countData
+   		 cout<<"Element "<<i<<" to "<<towary[i].nazwa<<"\t\t"<<towary[i].cena
+		<<"\t"<<towary[i].sztuk<<endl;
+}
+    
+float sumaWartosci(product magazyn[], int countData)
+{
+	int i;
+	float suma=0;
+	for (i=1; i<=countData; i++)
+	  suma+=magazyn[i].cena * magazyn[i].sztuk;
+	return suma;
+}
+	
+float sredniaCena(product magazyn[], int countData)
+{
+	float srednia, suma=0;
+	for (int i=1; i<=countData; i++)
+	  suma+=magazyn[i].cena;
+	srednia=suma/countData;
+	return srednia;
+}
+	
+
+void minmaxCena(product magazyn[], int countData, float *min, float *max)
+{
+	*min=magazyn[1].cena;
+	*max=magazyn[1].cena;
+	for (int i=2; i<=countData; i++)
+    	if (magazyn[i].cena<*min)
+		  *min=magazyn[i].cena;  
+		else
+			if (magazyn[i].cena>*max)
+			  *max=magazyn[i].cena;     
+}
+
+void wyszukajCena(product magazyn[], int ile_danych, productserchedmagazyn[], int *ile_wyszukanych, float min, float max) //szukany przedział <min,max>
+{
+	int i;
+	*ile_wyszukanych=0;	
+	for (i=0; i<ile_danych; i++)
+		if (magazyn[i].cena>=min && magazyn[i].cena<=max)
+		{
+			(*ile_wyszukanych)++;
+			serchedmagazyn[*ile_wyszukanych]=magazyn[i];
+		}
+
+}
+
+void przecena(product magazyn[], int countData, float procent)	//przecena wszystkich towarów
+{
+	for (int i=1; i<=countData; i++)
+		magazyn[i].cena+=magazyn[i].cena * procent/100;
+}
+
+
+void selectionsort(product magazyn[], int countData)
+{	
+	productmin;
+	int indeks, i, nr;
+	for (nr=1; nr<countData; nr++)
+	{
+		min=magazyn[nr];
+		indeks=nr;
+		for (i=nr+1; i<=countData; i++)		//UWAGA: elementy gromadzimy od indeksu 1
+			if (magazyn[i].cena < min.cena)	
+				{
+					min=magazyn[i];
+					indeks=i;
+				}
+		magazyn[indeks]=magazyn[nr];
+		magazyn[nr]=min;
+	}
+}
+
+
+	
