@@ -9,9 +9,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct towar
+struct product
 {
-    char name[20];
+    string name[20];
     int id;
     string type;
     int count;
@@ -37,16 +37,16 @@ struct towar
 // 16. readme
 // 17. exoit
 
-void generateData(product magazyn[], int countData);	
+void generateData(product magazyn[], int len);	
 void generujPosortowane(product magazyn[], int countData);		
 float generateFloat(float min, float max);
 int generateInt(int min, int max);
 void generujOdwrotniePosortowane(product magazyn[], int countData);	
-void dodajTowar(product magazyn[], productnowy, int *countData);		
-void wypisz(producttowary[], int ile);									
+void dodajTowar(product magazyn[], product nowy, int *countData);		
+void wypisz(product towary[], int ile);									
 float sumaWartosci(product magazyn[], int countData);
 float sredniaCena(product magazyn[], int countData);
-void wyszukajCena(product magazyn[], int ile_danych, productserchedmagazyn[], int *ile_wyszukanych, float min, float max);
+void wyszukajCena(product magazyn[], int ile_danych, product wyszukane[], int *ile_wyszukanych, float min, float max);
 void minmaxCena(product magazyn[], int countData, float *min, float *max);
 void przecena(product magazyn[], int countData, float procent);
 void selectionsort(product magazyn[], int countData);
@@ -59,7 +59,7 @@ main()
     product *magazyn, *serchedmagazyn, nowy;
 	float suma, srednia, minimum, maksimum, procent;	
     int lenght=0, countData=0, countSearched=0;
-	char znak;
+	int znak;
 	cout<<"Magazyn czesci komputerowych"<<endl;
 	
 	do
@@ -84,7 +84,7 @@ main()
 	    cin>>znak;
 	    switch (znak)
 	    {
-	    	case '1':
+	    	case 1:
                 {
                     cout<<"Podaj wielkość?"<<endl;
 	    			cin>>lenght;
@@ -94,56 +94,57 @@ main()
                         break;
                     }	
                     lenght++;				
-	    			magazyn = new towar[lenght];	
-	    			serchedmagazyn =new towar[lenght];	//potrzebne do funkcji szukania
+	    			magazyn = new product[lenght];	
+	    			serchedmagazyn =new product[lenght];	//potrzebne do funkcji szukania
 	    			countData=0;
 	    			countSearched=0;
 	    			break;
                 } 	
-	      	case '2':
+	      	case 2:
                 {
 			  			generateData(magazyn, lenght);
 	      	            cout<<endl<<"Wykonano"<<endl;
 	      	            break;                    
                 }
-			case '3': 	cout<<"Ile danych generowac? ";
+			case 3: 	cout<<"Ile danych generowac? ";
 	      				cin>>countData;
 						generujPosortowane(magazyn, countData);
 						cout<<endl;
 	      	            cout<<endl<<"Wygenerowano"<<endl;
 	      	            break;	    
-	      	case '4': 	cout<<"Ile danych generowac? ";
+	      	case 4: 	cout<<"Ile danych generowac? ";
 	      				cin>>countData;
 			  			generujOdwrotniePosortowane(magazyn, countData);
 			  			cout<<endl<<"Wygenerowano"<<endl;
 	                    break;
-	        case '40':	cout<<"Nazwa: ";
-	        			fflush(stdin);
-						gets(nowy.nazwa);   
+	        case 14:	cout<<"Nazwa: ";
+	        			cin>>nowy.name  
 						cout<<"Cena: ";
-						cin>>nowy.cena;
+						cin>>nowy.price;
 						cout<<"Sztuk: ";
-						cin>>nowy.sztuk;
+						cin>>nowy.count;
+                        cout<<"Rodzaj: ";
+						cin>>nowy.type;
 						cin.ignore();   
 						dodajTowar(magazyn, nowy, &countData);    
 						cout<<"Dopisany"<<endl;     
 						break;
-	        case '50':	wypisz(magazyn, countData);
+	        case 15:	wypisz(magazyn, countData);
 	        			cout<<endl;
 	        			break;
-	        case '6': 	cout<<endl<<"Suma wartosci magazynu= "<<sumaWartosci(magazyn, countData)<<endl<<endl;  
+	        case 6: 	cout<<endl<<"Suma wartosci magazynu= "<<sumaWartosci(magazyn, countData)<<endl<<endl;  
 			            break;  
-			case '7':	cout<<"Srednia cena= "<<sredniaCena(magazyn, countData)<<endl<<endl;       
+			case 7:	cout<<"Srednia cena= "<<sredniaCena(magazyn, countData)<<endl<<endl;       
 			        	break;
-			case '8': 	minmaxCena(magazyn, countData, &minimum, &maksimum);
+			case 8: 	minmaxCena(magazyn, countData, &minimum, &maksimum);
 				        cout<<"Cena minimalna="<<minimum<<"  Cena maksymalna="<<maksimum<<endl;
 				        break;
-			case '9': 	cout<<"O jaki procent przeceniasz? (ujemny obniza) ";
+			case 9: 	cout<<"O jaki procent przeceniasz? (ujemny obniza) ";
 						cin>>procent;
 						przecena(magazyn, countData, procent);
 						cout<<"Przecenione."<<endl;
 			        	break;
-			case 'a':
+			case 10:
                 {
                     cout<<"Podaj przedzial szukany."<<endl<<"od wartosci: ";
 					cin>>minimum;					//Bez zabezpieczeń!
@@ -155,7 +156,7 @@ main()
 					cout<<endl;
 					break;
                 }
-			case 'b':                	
+			case 157:                	
                 {
                     selectionsort(magazyn, countData);
                     cout<<"POSORTOWANO"<<endl;
@@ -188,22 +189,22 @@ void generateData(product magazyn[], int len)
     //     strcpy(naz, "Towar");
 	// 	itoa(i, numer, 10);
 	// 	strcat(naz, numer);
-    //     strcpy(magazyn[i].nazwa, naz);
-	// 	magazyn[i].cena=(rand()%100001) /100;		
-    //     magazyn[i].sztuk=rand()%101;
+    //     strcpy(magazyn[i].name, naz);
+	// 	magazyn[i].price=(rand()%100001) /100;		
+    //     magazyn[i].count=rand()%101;
     // }
 
     int slen = len;
     for(int i = 1; i <= len; i++)
     {   
-        Produkt magazyn[i];
+        //produkt magazyn[i];
         int type = rand()%5+1;//1.cpu2.gpu3.ram4.mb5.power
-        if(gen == false){
+        //if(gen == false){
           magazyn[i].id = i;  
-        }else{
-            slen--;
-            magazyn[i].id = slen;  
-        }
+        // }else{
+        //     slen--;
+        //     magazyn[i].id = slen;  
+        // }
         
         magazyn[i].count = generateInt(10,1000); 
         switch (type)
@@ -390,9 +391,9 @@ void generujPosortowane(product magazyn[], int countData)
  		strcpy(naz, "Towar");
 		itoa(i, numer, 10);
 		strcat(naz, numer);
-        strcpy(magazyn[i].nazwa, naz);
-		magazyn[i].cena=i*10.11;		
-        magazyn[i].sztuk=i;
+        strcpy(magazyn[i].name, naz);
+		magazyn[i].price=i*10.11;		
+        magazyn[i].count=i;
     }
 }
         
@@ -404,24 +405,24 @@ void generujOdwrotniePosortowane(product magazyn[], int countData)
  		strcpy(naz, "Towar");
 		itoa(i, numer, 10);		//Nazwy numeruję j.w. czyli rosnąco
 		strcat(naz, numer);
-        strcpy(magazyn[i].nazwa, naz);
-		magazyn[i].cena=countData*20 - i*10.11;	
-        magazyn[i].sztuk=countData - i + 1;
+        strcpy(magazyn[i].name, naz);
+		magazyn[i].price=countData*20 - i*10.11;	
+        magazyn[i].count=countData - i + 1;
     }
 }
 
-void dodajTowar(product magazyn[], productnowy, int *countData)
+void dodajTowar(product magazyn[], product nowy, int *countData)
 {
 	(*countData)++;
 	magazyn[*countData]=nowy;
 }
 	
 	
-void wypisz(producttowary[], int ile)	
+void wypisz(product towary[], int ile)	
 {
 	for (int i=1; i<=ile; i++)    //od indeksu 1 do countData
-   		 cout<<"Element "<<i<<" to "<<towary[i].nazwa<<"\t\t"<<towary[i].cena
-		<<"\t"<<towary[i].sztuk<<endl;
+   		 cout<<"Element "<<i<<" to "<<towary[i].name<<"\t\t"<<towary[i].price
+		<<"\t"<<towary[i].count<<endl;
 }
     
 float sumaWartosci(product magazyn[], int countData)
@@ -429,7 +430,7 @@ float sumaWartosci(product magazyn[], int countData)
 	int i;
 	float suma=0;
 	for (i=1; i<=countData; i++)
-	  suma+=magazyn[i].cena * magazyn[i].sztuk;
+	  suma+=magazyn[i].price * magazyn[i].count;
 	return suma;
 }
 	
@@ -437,7 +438,7 @@ float sredniaCena(product magazyn[], int countData)
 {
 	float srednia, suma=0;
 	for (int i=1; i<=countData; i++)
-	  suma+=magazyn[i].cena;
+	  suma+=magazyn[i].price;
 	srednia=suma/countData;
 	return srednia;
 }
@@ -445,22 +446,22 @@ float sredniaCena(product magazyn[], int countData)
 
 void minmaxCena(product magazyn[], int countData, float *min, float *max)
 {
-	*min=magazyn[1].cena;
-	*max=magazyn[1].cena;
+	*min=magazyn[1].price;
+	*max=magazyn[1].price;
 	for (int i=2; i<=countData; i++)
-    	if (magazyn[i].cena<*min)
-		  *min=magazyn[i].cena;  
+    	if (magazyn[i].price<*min)
+		  *min=magazyn[i].price;  
 		else
-			if (magazyn[i].cena>*max)
-			  *max=magazyn[i].cena;     
+			if (magazyn[i].price>*max)
+			  *max=magazyn[i].price;     
 }
 
-void wyszukajCena(product magazyn[], int ile_danych, productserchedmagazyn[], int *ile_wyszukanych, float min, float max) //szukany przedział <min,max>
+void wyszukajCena(product magazyn[], int ile_danych, product wyszukane[], int *ile_wyszukanych, float min, float max) //szukany przedział <min,max>
 {
 	int i;
 	*ile_wyszukanych=0;	
 	for (i=0; i<ile_danych; i++)
-		if (magazyn[i].cena>=min && magazyn[i].cena<=max)
+		if (magazyn[i].price>=min && magazyn[i].price<=max)
 		{
 			(*ile_wyszukanych)++;
 			serchedmagazyn[*ile_wyszukanych]=magazyn[i];
@@ -471,26 +472,26 @@ void wyszukajCena(product magazyn[], int ile_danych, productserchedmagazyn[], in
 void przecena(product magazyn[], int countData, float procent)	//przecena wszystkich towarów
 {
 	for (int i=1; i<=countData; i++)
-		magazyn[i].cena+=magazyn[i].cena * procent/100;
+		magazyn[i].price+=magazyn[i].price * procent/100;
 }
 
 
 void selectionsort(product magazyn[], int countData)
 {	
 	productmin;
-	int indeks, i, nr;
+	int indeks, i, nr, min;
 	for (nr=1; nr<countData; nr++)
 	{
-		min=magazyn[nr];
-		indeks=nr;
+		min = magazyn[nr];
+		indeks = nr;
 		for (i=nr+1; i<=countData; i++)		//UWAGA: elementy gromadzimy od indeksu 1
-			if (magazyn[i].cena < min.cena)	
+			if (magazyn[i].price < min.price)	
 				{
-					min=magazyn[i];
+					min = magazyn[i];
 					indeks=i;
 				}
-		magazyn[indeks]=magazyn[nr];
-		magazyn[nr]=min;
+		magazyn[indeks] = magazyn[nr];
+		magazyn[nr] = min;
 	}
 }
 
