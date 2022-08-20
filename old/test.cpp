@@ -33,17 +33,17 @@ public:
         }
 };
 // function to generate and retrun random numbers.
-int * getRandom(int len ) {
+int * getRandom( ) {
 
-    int  r[len];
+   static int  r[10];
 
    // set the seed
    srand( (unsigned)time( NULL ) );
    
-   for (int i = 0; i < len; ++i) {
-        //Produkt tab[i];
-      r[i] = rand();
-      cout << r[i] << endl;
+   for (int i = 0; i < 10; ++i) {
+        Produkt tab[i];
+      r[i].id = rand();
+      cout << r[i].id << endl;
    }
 
    return r;
@@ -54,9 +54,8 @@ int main () {
 
    // a pointer to an int.
    int *p;
-   int leng;
-   cin>> leng;
-   p = getRandom(leng);
+
+   p = getRandom();
    
    for ( int i = 0; i < 10; i++ ) {
       cout << "*(p + " << i << ") : ";
