@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <cstdlib>
 #include <bits/stdc++.h>
+#include <fstream>
 using namespace std;
 
 struct Produkt
@@ -30,6 +31,8 @@ void wyszukajCena(Produkt magazyn[], int ile_danych, Produkt wyszukane[], int *i
 void minmaxCena(Produkt magazyn[], int liczba_danych, float *min, float *max);
 void przecena(Produkt magazyn[], int liczba_danych, float procent);
 void selectionsort(Produkt magazyn[], int liczba_danych);
+bool minMaxVal(float min, float max);
+void createSQL(Produkt towary[], int ile);
 main()
 {    
     Produkt *magazyn, *wyszukane, nowy;
@@ -56,24 +59,44 @@ main()
         }					 
     }while (true);
 	
-
+// To do list
+// 2. losowe generowanie --
+// 3. losowe generowanie sortowane --
+// 4. loswoe generowanie odwrotnie sortowane --
+// 5. dopisywanie towaru --
+// 6. listowanie towaru --
+// 7. suma wartości całego magazynu --
+// 8. srednia cena towaru --
+// 9. min i max cena --
+// 10. zmiana ceny o % --
+// 11. wyszukanie przedziału cen --
+// 12. sortowanie wg cen -- 
+// 13. sortowanie wg nazwy
+// 14. czytanie z pliku sql
+// 15. zapis do sql
+// 16. readme
+// 17. exoit
 	do
 	{
 	    fflush(stdin);
 		cout<<endl<<endl<<"NACISNIJ ENTER BY KONTYNUOWAĆ"<<endl;
 		getchar();
 	    system("CLS");
-		cout<<"1. Losowanie calego magazynu"<<endl;
-	    cout<<"2. Generowanie calego magazynu posortowanego by ID"<<endl;
-	   	cout<<"3. Generowanie calego magazynu odwrotnie posortowanego by ID"<<endl;
-	   	cout<<"4. Dopisanie towaru do magazynu"<<endl;
-	    cout<<"5. Wypisanie elementow tablicy"<<endl;
-	    cout<<"6. Suma wartosci w calym magazynie"<<endl;
-	    cout<<"7. Srednia cena towaru"<<endl;
-	    cout<<"8. Maksymalna i minimalna cena"<<endl;
-		cout<<"9. Zmiana ceny o podany procent"<<endl;
-		cout<<"a. Wyszukiwanie wedlug przedzialu cen"<<endl;
-		cout<<"b. Sortowanie rosnace wedlug cen- proste wybieranie"<<endl;
+		cout<<"1. Losowanie calego magazynu"<<endl; //rep
+	    cout<<"2. Generowanie calego magazynu posortowanego by ID"<<endl;//rep
+	   	cout<<"3. Generowanie calego magazynu odwrotnie posortowanego by ID"<<endl;//rep
+	   	cout<<"4. Dopisanie towaru do magazynu"<<endl; //rep
+	    cout<<"5. Wypisanie elementow tablicy"<<endl; //rep
+	    cout<<"6. Suma wartosci w calym magazynie"<<endl; //rep
+	    cout<<"7. Srednia cena towaru"<<endl; //rep
+	    cout<<"8. Maksymalna i minimalna cena"<<endl; //rep
+		cout<<"9. Zmiana ceny o podany procent"<<endl; //rep
+		cout<<"a. Wyszukiwanie wedlug przedzialu cen"<<endl; //rep
+		cout<<"b. Sortowanie rosnace wedlug cen- proste wybieranie"<<endl; //rep
+		cout<<"c. Sortowanie rosnace wedliug nazwy";
+		cout<<"d. Zapis do sql";
+		cout<<"e. Czytanie z sql";
+		cout<<"f. README";
 	    cout<<"ESC. ---KONIEC PRACY---"<<endl<<endl;
 	    znak=getch();
 	    switch (znak)
@@ -101,6 +124,7 @@ main()
                             }
                             
                         } while (liczba_danych <=0);
+
 			  			losuj(magazyn, liczba_danych);
 	      	            cout<<endl<<"Wygenerowano"<<endl;
 	      	            break;	    
@@ -111,7 +135,10 @@ main()
 	                    break;
 	        case '4':	cout<<"Nazwa: ";
 	        			fflush(stdin);
-						gets(nowy.name);   
+						gets(nowy.name);
+						cout<<"Rodzaj: ";
+	        			fflush(stdin);
+						gets(nowy.type);     
 						cout<<"Cena: ";
 						cin>>nowy.price;
 						cout<<"Sztuk: ";
@@ -135,10 +162,14 @@ main()
 						przecena(magazyn, liczba_danych, procent);
 						cout<<"Przecenione."<<endl;
 			        	break;
-			case 'a':	cout<<"Podaj przedzial szukany."<<endl<<"od wartosci: ";
-						cin>>minimum;					//Bez zabezpieczeń!
-						cout<<"do wartosci: ";
-						cin>>maksimum;
+			case 'a':	cout<<"Podaj przedzial szukany."<<endl;
+						do
+						{
+							cout<<"od wartosci: ";
+							cin>>minimum;					
+							cout<<"do wartosci: ";
+							cin>>maksimum;
+						} while (minMaxVal(minimum, maksimum));
 						getchar();
 						wyszukajCena(magazyn, liczba_danych, wyszukane, &liczba_wyszukanych, minimum, maksimum);
 						wypisz(wyszukane, liczba_wyszukanych);
@@ -232,6 +263,7 @@ void generujOdwrotniePosortowane(Produkt magazyn[], int liczba_danych)
 void dodajTowar(Produkt magazyn[], Produkt nowy, int *liczba_danych)
 {
 	(*liczba_danych)++;
+	nowy.id = (*liczba_danych);
 	magazyn[*liczba_danych]=nowy;
 }
 	
@@ -239,8 +271,8 @@ void dodajTowar(Produkt magazyn[], Produkt nowy, int *liczba_danych)
 void wypisz(Produkt towary[], int ile)	
 {
 	for (int i=1; i<=ile; i++)    //od indeksu 1 do liczba_danych
-   		 cout<<"Element "<<i<<" to "<<towary[i].name<<"\t\t"<<towary[i].price
-		<<"\t"<<towary[i].count<<endl;
+   		 cout<<"ID: "<<i<<" Nazwa: "<<towary[i].name<<" Rodzaj: "<< towary[i].type<<"\tCena:\t"<<towary[i].price
+		<<"\tIlosc:\t"<<towary[i].count<<endl;
 }
     
 float sumaWartosci(Produkt magazyn[], int liczba_danych)
@@ -313,5 +345,32 @@ void selectionsort(Produkt magazyn[], int liczba_danych)
 	}
 }
 
+bool minMaxVal(float min, float max)
+{
+	if (min < max)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+		
+}
 
+void createSQL(Produkt towary[], int ile)
+{
+	ofstream newFileWDB("yourwarehouse.sql");
+
+	newFileWDB<<"CREATE TABLE 'yourwarehouse' (
+		'ID' int(11) NOT NULL,
+		'name' varchar(20) COLLATE utf8_polish_ci NOT NULL,
+		'type' varchar(20) COLLATE utf8_polish_ci NOT NULL,
+		'count' int(11) NOT NULL,
+		'price' float NOT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+		ALTER TABLE `yourwarehouse`
+		ADD PRIMARY KEY (`ID`);";
+}
 	
