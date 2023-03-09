@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> convertTo8bit(vector<long int> arr_10bit) {
+    vector<int> arr_8bit;
+    for (int i = 0; i < arr_10bit.size(); i++) {
+        long int num_10bit = arr_10bit[i];
+        int byte1 = (num_10bit & 0xFF);
+        int byte2 = (num_10bit >> 8) & 0xFF;
+        int byte3 = (num_10bit >> 16) & 0xFF;
+        int byte4 = (num_10bit >> 24) & 0xFF;
+        int num_8bit = (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+        arr_8bit.push_back(num_8bit);
+    }
+    return arr_8bit;
+}
+
+int main() {
+    // Przykładowa tablica liczb 10-bitowych
+    vector<long int> arr_10bit = {904811872261, 768261455902, 493032014023, 79926493428};
+    
+    // Przeliczanie na 8-bitową tablicę
+    vector<int> arr_8bit = convertTo8bit(arr_10bit);
+    
+    // Wyświetlanie wyniku
+    for (int i = 0; i < arr_8bit.size(); i++) {
+        cout << arr_8bit[i] << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}
